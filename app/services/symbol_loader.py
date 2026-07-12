@@ -51,6 +51,12 @@ class SymbolLoader:
             symbol = item["symbol"]
 
 
+            if not symbol.isascii():
+                logger.warning(
+                    "Skip invalid symbol: %s",
+                    symbol,
+                )
+                continue
 
             price_precision = item.get(
                 "pricePrecision",
@@ -140,13 +146,7 @@ class SymbolLoader:
 
     def symbols(self):
 
-        return [
-
-            coin.symbol
-
-            for coin in self.coins
-
-        ]
+        return list(market.symbols())
 
 
 symbol_loader = SymbolLoader()

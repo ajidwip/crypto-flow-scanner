@@ -8,7 +8,7 @@ from app.engine.flow_engine import flow_engine
 from app.engine.indicator_engine import indicator_engine
 from app.services.ranking_service import ranking_service
 from app.core.market_events import market_events
-
+from app.core.statistics import statistics
 
 logger = logging.getLogger("FLOW")
 

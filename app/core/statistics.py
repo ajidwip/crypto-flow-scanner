@@ -6,13 +6,13 @@ from dataclasses import dataclass
 @dataclass(slots=True)
 class Statistics:
 
-    trades = 0
+    trades: int = 0
 
-    candles = 0
+    candles: int = 0
 
-    indicator = 0
+    indicator: int = 0
 
-    score = 0
+    score: int = 0
 
 
 statistics = Statistics()

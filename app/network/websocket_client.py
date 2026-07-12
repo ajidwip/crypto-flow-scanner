@@ -138,11 +138,23 @@ class WebSocketClient:
 
         async for msg in self.ws:
 
-            await self._handle_message(msg)
+            try:
 
-        raise RuntimeError(
-            "Connection Lost"
+                await self._handle_message(msg)
+
+            except Exception:
+
+                logger.exception(
+                    "[%s] Callback Error",
+                    self.name,
+                )
+
+        logger.warning(
+            "[%s] WebSocket loop ended",
+            self.name,
         )
+
+        raise RuntimeError("Connection Lost")
 
     async def _handle_message(self, msg: aiohttp.WSMessage):
 

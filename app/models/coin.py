@@ -13,6 +13,7 @@ from app.models.state import State
 from app.realtime.trade_cache import TradeCache
 from app.realtime.whale_cache import WhaleCache
 from app.realtime.delta_volume import DeltaVolume
+from app.realtime.cvd import CVD
 
 @dataclass(slots=True)
 class Coin(BaseModel):
@@ -58,6 +59,10 @@ class Coin(BaseModel):
 
     delta_volume: DeltaVolume = field(
         default_factory=DeltaVolume
+    )
+
+    cvd: CVD = field(
+        default_factory=CVD
     )
 
     live_candle: Candle | None = None

@@ -44,19 +44,60 @@ class SystemMonitor:
                 print("Notional :", round(coin.trade_cache.notional, 2))
 
                 print(
-                    "Whale :",
-                    coin.whale_cache.count,
+                    "BUY Whale Count :",
+                    coin.whale_cache.buy_count,
                 )
 
                 print(
-                    "BUY Whale :",
-                    coin.whale_cache.buy,
+                    "SELL Whale Count :",
+                    coin.whale_cache.sell_count,
                 )
 
                 print(
-                    "SELL Whale :",
-                    coin.whale_cache.sell,
+                    "BUY Whale Value :",
+                    round(coin.whale_cache.buy_value, 2),
                 )
+
+                print(
+                    "SELL Whale Value :",
+                    round(coin.whale_cache.sell_value, 2),
+                )
+
+                print(
+                    "Largest Whale :",
+                    round(coin.whale_cache.largest, 2),
+                )
+
+                print(
+                    "Whale Pressure :",
+                    round(coin.whale_cache.pressure, 3),
+                )
+
+                print()
+
+                print("CVD :", round(coin.cvd.value, 2))
+
+                print("Delta :", round(coin.delta_volume.delta, 2))
+
+                print("Pressure :", round(coin.delta_volume.pressure, 3))
+
+                print()
+
+                print("Score :", coin.score.total)
+
+                print("Volume :", coin.score.volume)
+
+                print("Momentum :", coin.score.momentum)
+
+                print("Money Flow :", coin.score.money_flow)
+
+                print("Trend :", coin.score.trend)
+
+                print("Whale :", coin.score.whale)
+
+                print("Delta :", coin.score.delta)
+
+                print("CVD :", coin.score.cvd)
 
             await asyncio.sleep(5)
 

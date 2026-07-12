@@ -76,6 +76,14 @@ class TradeStreamService:
 
         )
 
+        coin.cvd.add(
+
+            quantity,
+
+            data["m"],
+
+        )
+
         whale = whale_detector.detect(trade)
 
         if whale:

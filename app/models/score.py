@@ -19,6 +19,8 @@ class Score(BaseModel):
 
     delta: float = 0.0
 
+    cvd: float = 0.0
+
     whale: float = 0.0
 
     momentum: float = 0.0
@@ -64,6 +66,7 @@ class Score(BaseModel):
         self.confidence = 0.0
         self.money_flow = 0.0
         self.delta = 0.0
+        self.cvd = 0.0
         self.whale = 0.0
         self.momentum = 0.0
         self.trend = 0.0

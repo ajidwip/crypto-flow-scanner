@@ -42,6 +42,10 @@ class FlowEngine:
 
         delta = self.delta_score(coin)
 
+        cvd = self.cvd_score(coin)
+
+        coin.score.cvd = cvd
+
         coin.score.whale = self.whale_score(coin)
 
         coin.score.volume = volume
@@ -58,19 +62,21 @@ class FlowEngine:
 
         total = (
 
-            volume * 0.20 +
+            volume * 0.18 +
 
-            momentum * 0.20 +
+            momentum * 0.18 +
 
-            candle * 0.15 +
+            candle * 0.12 +
 
-            money_flow * 0.15 +
+            money_flow * 0.12 +
 
             trend * 0.10 +
 
             whale * 0.10 +
 
-            delta * 0.10
+            delta * 0.10 +
+
+            cvd * 0.10
 
         )
 
@@ -305,6 +311,29 @@ class FlowEngine:
 
         return coin.delta_volume.pressure * 100
 
+    def cvd_score(
+        self,
+        coin,
+    ):
 
+        value = coin.cvd.value
+
+        if value >= 500:
+
+            return 100
+
+        if value >= 250:
+
+            return 80
+
+        if value >= 100:
+
+            return 60
+
+        if value >= 0:
+
+            return 40
+
+        return 20
 
 flow_engine = FlowEngine()
