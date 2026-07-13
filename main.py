@@ -10,6 +10,8 @@ from app.services.historical_loader import historical_loader
 from app.services.symbol_loader import symbol_loader
 from app.services.trade_stream_service import trade_stream_service
 from app.services.system_monitor import system_monitor
+from app.services.orderbook_stream_service import orderbook_stream_service
+from app.services.open_interest_service import open_interest_service
 
 
 logging.basicConfig(
@@ -23,7 +25,20 @@ logging.basicConfig(
 
 async def callback(payload):
 
-    await trade_stream_service.handle(payload)
+    data = payload.get("data")
+
+    if not data:
+        return
+
+    event = data.get("e")
+
+    if event == "trade":
+
+        await trade_stream_service.handle(payload)
+
+    elif event == "depthUpdate":
+
+        await orderbook_stream_service.handle(payload)
 
 
 async def create_clients():
@@ -32,15 +47,19 @@ async def create_clients():
 
     symbols = symbol_loader.symbols()
 
-    streams = [
+    streams = []
 
-        f"{symbol.lower()}@trade"
+    for symbol in symbols:
 
-        for symbol in symbols
+        streams.append(
+            f"{symbol.lower()}@trade"
+        )
 
-    ]
+        streams.append(
+            f"{symbol.lower()}@depth20@100ms"
+        )
 
-    group_size = 150
+    group_size = 100
 
     for i in range(0, len(streams), group_size):
 
@@ -106,6 +125,16 @@ async def main():
         asyncio.create_task(
 
             system_monitor.start()
+
+        )
+
+    )
+
+    tasks.append(
+
+        asyncio.create_task(
+
+            open_interest_service.start()
 
         )
 

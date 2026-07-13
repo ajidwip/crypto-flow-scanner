@@ -14,6 +14,15 @@ from app.realtime.trade_cache import TradeCache
 from app.realtime.whale_cache import WhaleCache
 from app.realtime.delta_volume import DeltaVolume
 from app.realtime.cvd import CVD
+from app.models.order_book import OrderBook
+from app.models.volume_profile import VolumeProfile
+from app.models.volume_spike import VolumeSpike
+from app.models.rvol import RVOL
+from app.models.open_interest import OpenInterest
+from app.models.signal import Signal
+from app.models.timeframe_trend import TimeframeTrend
+from app.models.order_book import OrderBook
+from app.models.orderbook_score import OrderBookScore
 
 @dataclass(slots=True)
 class Coin(BaseModel):
@@ -63,6 +72,42 @@ class Coin(BaseModel):
 
     cvd: CVD = field(
         default_factory=CVD
+    )
+
+    order_book: OrderBook = field(
+        default_factory=OrderBook
+    )
+
+    volume_profile: VolumeProfile = field(
+        default_factory=VolumeProfile
+    )
+
+    volume_spike: VolumeSpike = field(
+        default_factory=VolumeSpike
+    )
+
+    rvol: RVOL = field(
+        default_factory=RVOL
+    )
+
+    open_interest: OpenInterest = field(
+        default_factory=OpenInterest
+    )
+
+    signal: Signal = field(
+        default_factory=Signal
+    )
+
+    timeframe: TimeframeTrend = field(
+        default_factory=TimeframeTrend
+    )
+
+    order_book: OrderBook = field(
+        default_factory=OrderBook
+    )
+
+    order_book_score: OrderBookScore = field(
+        default_factory=OrderBookScore
     )
 
     live_candle: Candle | None = None

@@ -40,6 +40,10 @@ class FlowEngine:
             coin
         )
 
+        breakout = self.breakout_score(
+            coin
+        )
+
         delta = self.delta_score(coin)
 
         cvd = self.cvd_score(coin)
@@ -55,6 +59,8 @@ class FlowEngine:
         coin.score.money_flow = money_flow
 
         coin.score.trend = trend
+
+        coin.score.breakout = breakout
 
         coin.score.delta = delta
 
@@ -86,6 +92,9 @@ class FlowEngine:
             2
         )
 
+        self.update_signal(
+            coin
+        )
 
         coin.score.updated = True
 
@@ -300,6 +309,68 @@ class FlowEngine:
 
         return 30
 
+    def breakout_score(
+        self,
+        coin,
+    ):
+
+        candles = list(coin.candles)
+
+        if len(candles) < 30:
+
+            return 0
+
+        current = candles[-1]
+
+        highs = [
+
+            c.high
+
+            for c in candles[-21:-1]
+
+        ]
+
+        lows = [
+
+            c.low
+
+            for c in candles[-21:-1]
+
+        ]
+
+        resistance = max(highs)
+
+        support = min(lows)
+
+        if resistance == support:
+            return 50
+
+        if current.close > resistance:
+
+            return 100
+
+        if current.close < support:
+
+            return 0
+
+        distance = (
+
+            (current.close - support)
+
+            /
+
+            (resistance - support)
+
+        )
+
+        return max(
+            0,
+            min(
+                distance * 100,
+                100,
+            ),
+        )
+
 
     def whale_score(self, coin):
 
@@ -335,5 +406,36 @@ class FlowEngine:
             return 40
 
         return 20
+
+    def update_signal(
+        self,
+        coin,
+    ):
+
+        score = coin.score.total
+
+        if score >= 85:
+
+            coin.score.signal = "STRONG BUY"
+
+        elif score >= 70:
+
+            coin.score.signal = "BUY"
+
+        elif score >= 55:
+
+            coin.score.signal = "WATCH"
+
+        elif score >= 40:
+
+            coin.score.signal = "NEUTRAL"
+
+        elif score >= 25:
+
+            coin.score.signal = "WEAK"
+
+        else:
+
+            coin.score.signal = "SELL"
 
 flow_engine = FlowEngine()
