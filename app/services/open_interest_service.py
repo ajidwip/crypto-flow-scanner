@@ -1,70 +1,143 @@
 from __future__ import annotations
 
 import asyncio
+import aiohttp
 
 from app.core.market import market
-from app.network.rest_client import rest
+
 from app.core.priority_market import priority_market
 
 
 class OpenInterestService:
 
+    URL = (
+        "https://fapi.binance.com"
+        "/fapi/v1/openInterest"
+    )
+
+
     async def start(self):
 
         while True:
 
-            for symbol in priority_market.all():
+            try:
 
-                coin = market.get(symbol)
+                coins = priority_market.coins
 
-                if coin is None:
-                    continue
+                # sementara ambil top 50 saja
+                # agar tidak kena rate limit Binance
 
-                try:
+                for coin in coins[:50]:
 
-                    data = await rest.open_interest(
-                        coin.symbol
+                    await self.update_coin(
+                        coin
                     )
 
-                    value = float(
-                        data["openInterest"]
+                    await asyncio.sleep(
+                        0.1
                     )
 
-                    oi = coin.open_interest
 
-                    oi.previous = oi.value
+            except Exception:
 
-                    oi.value = value
+                pass
 
-                    if oi.previous:
 
-                        oi.delta = (
+            await asyncio.sleep(
+                60
+            )
 
-                            oi.value
 
-                            -
+    async def update_coin(
+        self,
+        coin
+    ):
 
-                            oi.previous
+        params = {
 
-                        )
+            "symbol": coin.symbol
 
-                        oi.percent = (
+        }
 
-                            oi.delta
 
-                            /
+        async with aiohttp.ClientSession() as session:
 
-                            oi.previous
+            async with session.get(
+                self.URL,
+                params=params,
+            ) as response:
 
-                        ) * 100
+                data = await response.json()
 
-                    oi.updated = True
 
-                except:
+        value = float(
+            data["openInterest"]
+        )
 
-                    pass
 
-            await asyncio.sleep(10)
+        oi = coin.open_interest
+
+
+        if oi.value > 0:
+
+            oi.previous = oi.value
+
+
+        oi.value = value
+
+
+        if oi.previous > 0:
+
+            oi.delta = (
+                oi.value -
+                oi.previous
+            )
+
+
+            oi.percentage = (
+                oi.delta /
+                oi.previous
+            ) * 100
+
+
+        oi.score = self.calculate_score(
+            oi.percentage
+        )
+
+
+        oi.updated = True
+
+
+
+    def calculate_score(
+        self,
+        percentage
+    ):
+
+        if percentage >= 5:
+
+            return 100
+
+
+        elif percentage >= 2:
+
+            return 80
+
+
+        elif percentage > 0:
+
+            return 60
+
+
+        elif percentage <= -5:
+
+            return 20
+
+
+        else:
+
+            return 40
+
 
 
 open_interest_service = OpenInterestService()

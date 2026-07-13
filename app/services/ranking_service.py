@@ -19,6 +19,9 @@ class RankingService:
 
         )
 
+        if coins:
+            market.selected = coins[0].symbol
+
         priority_market.update(
             coins,
             limit=30,

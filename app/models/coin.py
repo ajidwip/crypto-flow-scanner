@@ -20,9 +20,16 @@ from app.models.volume_spike import VolumeSpike
 from app.models.rvol import RVOL
 from app.models.open_interest import OpenInterest
 from app.models.signal import Signal
-from app.models.timeframe_trend import TimeframeTrend
 from app.models.order_book import OrderBook
 from app.models.orderbook_score import OrderBookScore
+from app.models.entry import Entry
+from app.models.funding_rate import FundingRate
+from app.models.timeframe import (
+    MultiTimeframe,
+    TimeframeTrend
+)
+from app.models.market_regime import MarketRegime
+from app.models.position import Position
 
 @dataclass(slots=True)
 class Coin(BaseModel):
@@ -98,16 +105,28 @@ class Coin(BaseModel):
         default_factory=Signal
     )
 
-    timeframe: TimeframeTrend = field(
-        default_factory=TimeframeTrend
-    )
-
-    order_book: OrderBook = field(
-        default_factory=OrderBook
-    )
-
     order_book_score: OrderBookScore = field(
         default_factory=OrderBookScore
+    )
+
+    entry: Entry = field(
+        default_factory=Entry
+    )
+
+    funding_rate: FundingRate = field(
+        default_factory=FundingRate
+    )
+
+    timeframe_trend: MultiTimeframe = field(
+        default_factory=MultiTimeframe
+    )
+
+    market_regime: MarketRegime = field(
+        default_factory=MarketRegime
+    )
+
+    position: Position = field(
+        default_factory=Position
     )
 
     live_candle: Candle | None = None

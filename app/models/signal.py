@@ -1,23 +1,15 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(slots=True)
 class Signal:
 
-    direction: str = "NONE"
+    direction: str = "NEUTRAL"
 
-    confidence: float = 0
+    confidence: float = 0.0
 
-    strength: float = 0
-
-    reason: list[str] = None
+    reason: list[str] = field(default_factory=list)
 
     updated: bool = False
-
-    def __post_init__(self):
-
-        if self.reason is None:
-
-            self.reason = []

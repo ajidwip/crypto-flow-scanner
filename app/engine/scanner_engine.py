@@ -15,8 +15,14 @@ from app.engine.volume_profile_engine import volume_profile_engine
 from app.engine.volume_spike_engine import volume_spike_engine
 from app.engine.rvol_engine import rvol_engine
 from app.engine.open_interest_engine import open_interest_engine
+from app.engine.multi_timeframe_engine import multi_timeframe_engine    
 from app.engine.signal_engine import signal_engine
 from app.engine.timeframe_engine import timeframe_engine
+from app.engine.entry_engine import entry_engine
+from app.engine.regime_engine import regime_engine
+from app.engine.position_engine import position_engine
+from app.engine.paper_trade_engine import paper_trade_engine
+from app.engine.paper_position_monitor import paper_position_monitor
 
 logger = logging.getLogger("FLOW")
 
@@ -83,9 +89,23 @@ class ScannerEngine:
 
             flow_engine.calculate(coin)
 
+            multi_timeframe_engine.calculate(
+                coin
+            )
+
             timeframe_engine.calculate(coin)
 
+            regime_engine.calculate(coin)
+
             signal_engine.calculate(coin)
+
+            entry_engine.calculate(coin)
+
+            position_engine.calculate(coin)
+
+            paper_trade_engine.calculate(coin)
+
+            paper_position_monitor.update(coin)
 
             statistics.score += 1
 

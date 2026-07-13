@@ -10,6 +10,8 @@ from app.services.ranking_service import ranking_service
 
 from app.core.priority_market import priority_market
 
+from app.core.paper_portfolio import portfolio
+
 
 class SystemMonitor:
 
@@ -17,273 +19,433 @@ class SystemMonitor:
 
         while True:
 
-            print()
+            # print()
 
-            print("=" * 80)
+            # print("=" * 80)
 
-            print("Trades    :", statistics.trades)
+            # print("Trades    :", statistics.trades)
 
-            print("Indicator :", statistics.indicator)
+            # print("Indicator :", statistics.indicator)
 
-            print("Score     :", statistics.score)
+            # print("Score     :", statistics.score)
 
-            print("=" * 80)
+            # print("=" * 80)
 
             top = ranking_service.top(20)
 
-            print()
+            # print()
 
-            print("=" * 80)
-            print("TOP 20 FLOW")
-            print("=" * 80)
+            # print("=" * 80)
+            # print("TOP 20 FLOW")
+            # print("=" * 80)
 
             for coin in top:
 
                 signal = coin.score.signal
 
-                print(
+                # print(
 
-                    f"{coin.score.rank:>2}",
+                #     f"{coin.score.rank:>2}",
 
-                    f"{coin.symbol:<15}",
+                #     f"{coin.symbol:<15}",
 
-                    f"{coin.score.total:>7.2f}",
+                #     f"{coin.score.total:>7.2f}",
 
-                    f"{signal:<8}",
+                #     f"{signal:<8}",
 
-                    f"{coin.score.rank_change:+4}",
+                #     f"{coin.score.rank_change:+4}",
 
-                )
+                # )
 
-            coin = market.get("BTCUSDT")
+            coin = market.get_selected()
 
             if coin:
 
+                # print()
+
+                # print("SELECTED")
+
+                # print(coin.symbol)
+
+                # print("Trades :", coin.trade_cache.count)
+
+                # print("Buy :", round(coin.trade_cache.buy_volume, 2))
+
+                # print("Sell :", round(coin.trade_cache.sell_volume, 2))
+
+                # print("Delta :", round(coin.trade_cache.delta, 2))
+
+                # print("Notional :", round(coin.trade_cache.notional, 2))
+
+                # print(
+                #     "BUY Whale Count :",
+                #     coin.whale_cache.buy_count,
+                # )
+
+                # print(
+                #     "SELL Whale Count :",
+                #     coin.whale_cache.sell_count,
+                # )
+
+                # print(
+                #     "BUY Whale Value :",
+                #     round(coin.whale_cache.buy_value, 2),
+                # )
+
+                # print(
+                #     "SELL Whale Value :",
+                #     round(coin.whale_cache.sell_value, 2),
+                # )
+
+                # print(
+                #     "Largest Whale :",
+                #     round(coin.whale_cache.largest, 2),
+                # )
+
+                # print(
+                #     "Whale Pressure :",
+                #     round(coin.whale_cache.pressure, 3),
+                # )
+
+                # print()
+
+                # print("CVD :", round(coin.cvd.value, 2))
+
+                # print("Delta :", round(coin.delta_volume.delta, 2))
+
+                # print("Pressure :", round(coin.delta_volume.pressure, 3))
+
+                # print()
+
+                # print("Score :", coin.score.total)
+
+                # print("Volume :", coin.score.volume)
+
+                # print("Momentum :", coin.score.momentum)
+
+                # print("Money Flow :", coin.score.money_flow)
+
+                # print("Trend :", coin.score.trend)
+
+                # print("Whale :", coin.score.whale)
+
+                # print("Delta :", coin.score.delta)
+
+                # print("CVD :", coin.score.cvd)
+
+                # print()
+
+                # print("ORDER BOOK")
+
+                # print(
+                #     "Bid Volume :",
+                #     round(coin.order_book.bid_volume,2)
+                # )
+
+                # print(
+                #     "Ask Volume :",
+                #     round(coin.order_book.ask_volume,2)
+                # )
+
+                # print(
+                #     "Bid Notional :",
+                #     round(coin.order_book.bid_notional,2)
+                # )
+
+                # print(
+                #     "Ask Notional :",
+                #     round(coin.order_book.ask_notional,2)
+                # )
+
+                # print(
+                #     "Spread :",
+                #     coin.order_book.spread
+                # )
+
+                # print(
+                #     "Imbalance :",
+                #     round(
+                #         coin.order_book.imbalance,
+                #         3
+                #     )
+                # )
+
+                # print()
+
+                # print("ORDERBOOK SCORE")
+
+                # print("Imbalance :", round(coin.order_book.score.imbalance, 2))
+
+                # print("Wall :", round(coin.order_book.score.wall, 2))
+
+                # print("Spread :", round(coin.order_book.score.spread, 2))
+
+                # print("Liquidity :", round(coin.order_book.score.liquidity, 2))
+
+                # print("Pressure :", round(coin.order_book.score.pressure, 2))
+
+                # print("Total :", round(coin.order_book.score.total, 2))
+
+                # print()
+
+                # print("VOLUME PROFILE")
+
+                # print("POC :", coin.volume_profile.poc)
+
+                # print()
+
+                # print("VOLUME PROFILE")
+
+                # print("VAL :", coin.volume_profile.val)
+
+                # print("POC :", coin.volume_profile.poc)
+
+                # print("VAH :", coin.volume_profile.vah)
+
+                # print(
+                #     "Total Volume :",
+                #     round(coin.volume_profile.total_volume, 2),
+                # )
+
+                # print()
+
+                # print("VOLUME SPIKE")
+
+                # print(
+                #     "Average :",
+                #     round(
+                #         coin.volume_spike.average_volume,
+                #         2,
+                #     ),
+                # )
+
+                # print(
+                #     "Current :",
+                #     round(
+                #         coin.volume_spike.current_volume,
+                #         2,
+                #     ),
+                # )
+
+                # print(
+                #     "Ratio :",
+                #     round(
+                #         coin.volume_spike.ratio,
+                #         2,
+                #     ),
+                # )
+
+                # print(
+                #     "Score :",
+                #     round(
+                #         coin.volume_spike.score,
+                #         2,
+                #     ),
+                # )
+
+                # print()
+
+                # print("RVOL")
+
+                # print("Average :", round(coin.rvol.average,2))
+
+                # print("Current :", round(coin.rvol.current,2))
+
+                # print("Ratio :", round(coin.rvol.ratio,2))
+
+                # print("Score :", round(coin.rvol.score,2))
+
+                # print()
+
+                # if coin.open_interest.updated:
+
+                #     print()
+
+                #     print("OPEN INTEREST")
+
+                #     print(
+                #         "Value :",
+                #         coin.open_interest.value
+                #     )
+
+                #     print(
+                #         "Delta :",
+                #         coin.open_interest.delta
+                #     )
+
+                #     print(
+                #         "% :",
+                #         coin.open_interest.percentage
+                #     )
+
+                #     print(
+                #         "Score :",
+                #         coin.open_interest.score
+                #     )
+
+                # print()
+
+                # print("TOP PRIORITY")
+
+                # for symbol in priority_market.all()[:10]:
+
+                #     print(symbol)
+
+                # print()
+
+                # print("SIGNAL")
+
+                # print(coin.symbol)
+
+                # print("Direction :", coin.signal.direction)
+
+                # print("Confidence :", round(
+
+                #     coin.signal.confidence,
+
+                #     2,
+
+                # ))
+
+                # print()
+
+                # print("REASONS")
+
+                # if coin.signal.reason:
+
+                #     for reason in coin.signal.reason:
+
+                #         print("✓", reason)
+
+                # else:
+
+                #     print("-")
+
+                # print()
+
+                # print("FUNDING")
+
+                # print("Rate :", round(coin.funding_rate.rate, 4))
+
+                # print("Score :", round(coin.funding_rate.score, 2))
+
+                # print()
+
+                # print("ENTRY")
+
+                # print("Entry :", round(coin.entry.entry, 4))
+
+                # print("Stop  :", round(coin.entry.stop, 4))
+
+                # print("TP1   :", round(coin.entry.tp1, 4))
+
+                # print("TP2   :", round(coin.entry.tp2, 4))
+
+                # print("RR    :", round(coin.entry.rr, 2))
+
+                # print()
+
+                # print("REGIME")
+
+                # print("Regime :", coin.market_regime.regime)
+
+                # print("Score  :", round(coin.market_regime.score, 2))
+
+                # print()
+                                
+                # print("POSITION")
+
+                # print("Capital :", coin.position.capital)
+
+                # print("Risk %  :", coin.position.risk_percent)
+
+                # print("Leverage:", coin.position.leverage)
+
+                # print("Risk $  :", round(coin.position.risk_amount, 2))
+
+                # print("Size    :", round(coin.position.position_size, 4))
+
+                # print("Margin  :", round(coin.position.margin, 2))
+
+                # print("SL Loss :", round(coin.position.loss_if_sl, 2))
+
+                # print("TP1     :", round(coin.position.profit_tp1, 2))
+
+                # print("TP2     :", round(coin.position.profit_tp2, 2))
+
                 print()
+                print("=" * 80)
+                print("OPEN POSITIONS")
+                print("=" * 80)
 
-                print("BTC Trade Cache")
+                if not portfolio.positions:
 
-                print("Trades :", coin.trade_cache.count)
+                    print("No Open Position")
 
-                print("Buy :", round(coin.trade_cache.buy_volume, 2))
+                else:
 
-                print("Sell :", round(coin.trade_cache.sell_volume, 2))
+                    for p in portfolio.positions:
 
-                print("Delta :", round(coin.trade_cache.delta, 2))
+                        if p.status != "OPEN":
+                            continue
 
-                print("Notional :", round(coin.trade_cache.notional, 2))
+                        print()
 
-                print(
-                    "BUY Whale Count :",
-                    coin.whale_cache.buy_count,
-                )
+                        print(p.symbol)
 
-                print(
-                    "SELL Whale Count :",
-                    coin.whale_cache.sell_count,
-                )
+                        print("Side   :", p.side)
 
-                print(
-                    "BUY Whale Value :",
-                    round(coin.whale_cache.buy_value, 2),
-                )
+                        print("Entry  :", round(p.entry, 8))
 
-                print(
-                    "SELL Whale Value :",
-                    round(coin.whale_cache.sell_value, 2),
-                )
+                        print("Stop   :", round(p.stop, 8))
 
-                print(
-                    "Largest Whale :",
-                    round(coin.whale_cache.largest, 2),
-                )
+                        print("TP1    :", round(p.tp1, 8))
 
-                print(
-                    "Whale Pressure :",
-                    round(coin.whale_cache.pressure, 3),
-                )
+                        print("TP2    :", round(p.tp2, 8))
+
+                        print("Qty    :", round(p.quantity, 2))
 
                 print()
+                print("=" * 80)
+                print("TRADE HISTORY")
+                print("=" * 80)
 
-                print("CVD :", round(coin.cvd.value, 2))
+                if not portfolio.history:
 
-                print("Delta :", round(coin.delta_volume.delta, 2))
+                    print("No Trade")
 
-                print("Pressure :", round(coin.delta_volume.pressure, 3))
+                else:
 
-                print()
+                    for trade in portfolio.history[-10:]:
 
-                print("Score :", coin.score.total)
+                        print()
 
-                print("Volume :", coin.score.volume)
+                        print(trade.symbol)
 
-                print("Momentum :", coin.score.momentum)
+                        print("Result :", trade.status)
 
-                print("Money Flow :", coin.score.money_flow)
+                        print("PnL    :", round(trade.pnl, 2))
 
-                print("Trend :", coin.score.trend)
+                total = portfolio.win + portfolio.loss
 
-                print("Whale :", coin.score.whale)
+                if total:
 
-                print("Delta :", coin.score.delta)
+                    winrate = portfolio.win / total * 100
 
-                print("CVD :", coin.score.cvd)
+                else:
 
-                print()
-
-                print("ORDER BOOK")
-
-                print(
-                    "Bid Volume :",
-                    round(coin.order_book.bid_volume,2)
-                )
-
-                print(
-                    "Ask Volume :",
-                    round(coin.order_book.ask_volume,2)
-                )
-
-                print(
-                    "Bid Notional :",
-                    round(coin.order_book.bid_notional,2)
-                )
-
-                print(
-                    "Ask Notional :",
-                    round(coin.order_book.ask_notional,2)
-                )
-
-                print(
-                    "Spread :",
-                    coin.order_book.spread
-                )
-
-                print(
-                    "Imbalance :",
-                    round(
-                        coin.order_book.imbalance,
-                        3
-                    )
-                )
+                    winrate = 0
 
                 print()
+                print("=" * 80)
+                print("PORTFOLIO")
+                print("=" * 80)
 
-                print("ORDERBOOK SCORE")
-
-                print("Imbalance :", round(coin.order_book.score.imbalance, 2))
-
-                print("Wall :", round(coin.order_book.score.wall, 2))
-
-                print("Spread :", round(coin.order_book.score.spread, 2))
-
-                print("Liquidity :", round(coin.order_book.score.liquidity, 2))
-
-                print("Pressure :", round(coin.order_book.score.pressure, 2))
-
-                print("Total :", round(coin.order_book.score.total, 2))
-
-                print()
-
-                print("VOLUME PROFILE")
-
-                print("POC :", coin.volume_profile.poc)
-
-                print()
-
-                print("VOLUME PROFILE")
-
-                print("VAL :", coin.volume_profile.val)
-
-                print("POC :", coin.volume_profile.poc)
-
-                print("VAH :", coin.volume_profile.vah)
-
-                print(
-                    "Total Volume :",
-                    round(coin.volume_profile.total_volume, 2),
-                )
-
-                print()
-
-                print("VOLUME SPIKE")
-
-                print(
-                    "Average :",
-                    round(
-                        coin.volume_spike.average_volume,
-                        2,
-                    ),
-                )
-
-                print(
-                    "Current :",
-                    round(
-                        coin.volume_spike.current_volume,
-                        2,
-                    ),
-                )
-
-                print(
-                    "Ratio :",
-                    round(
-                        coin.volume_spike.ratio,
-                        2,
-                    ),
-                )
-
-                print(
-                    "Score :",
-                    round(
-                        coin.volume_spike.score,
-                        2,
-                    ),
-                )
-
-                print()
-
-                print("RVOL")
-
-                print("Average :", round(coin.rvol.average,2))
-
-                print("Current :", round(coin.rvol.current,2))
-
-                print("Ratio :", round(coin.rvol.ratio,2))
-
-                print("Score :", round(coin.rvol.score,2))
-
-                print()
-
-                print("OPEN INTEREST")
-
-                print("Value :", round(coin.open_interest.value,2))
-
-                print("Delta :", round(coin.open_interest.delta,2))
-
-                print("% :", round(coin.open_interest.percent,2))
-
-                print("Score :", round(coin.open_interest.score,2))
-
-                print()
-
-                print("TOP PRIORITY")
-
-                for symbol in priority_market.all()[:10]:
-
-                    print(symbol)
-
-                print()
-
-                print("SIGNAL")
-
-                print("Direction :", coin.signal.direction)
-
-                print("Confidence :", round(
-
-                    coin.signal.confidence,
-
-                    2,
-
-                ))
+                print("Balance :", round(portfolio.balance, 2))
+                print("Win     :", portfolio.win)
+                print("Loss    :", portfolio.loss)
+                print("Trades  :", total)
+                print("WinRate :", round(winrate, 2), "%")
 
             await asyncio.sleep(5)
 

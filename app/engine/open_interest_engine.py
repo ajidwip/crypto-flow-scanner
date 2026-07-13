@@ -10,7 +10,7 @@ class OpenInterestEngine:
 
         oi = coin.open_interest
 
-        change = oi.percent
+        change = oi.percentage
 
         if change >= 5:
 

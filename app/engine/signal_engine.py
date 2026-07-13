@@ -14,134 +14,73 @@ class SignalEngine:
 
         signal.reason.clear()
 
-        confidence = score
+        #mtf = coin.multi_timeframe.total_score
 
-        trend = coin.score.trend
-        whale = coin.score.whale
-        delta = coin.score.delta
-        cvd = coin.score.cvd
-        momentum = coin.score.momentum
-        orderbook = coin.order_book_score.total
-        breakout = coin.score.breakout
+        if coin.score.trend >= 70:
+            signal.reason.append("Trend Bullish")
 
-        # ==========================
-        # BUY CONFIRMATION
-        # ==========================
+        if coin.score.momentum >= 70:
+            signal.reason.append("Momentum Strong")
 
-        if trend >= 70:
+        if coin.score.money_flow >= 70:
+            signal.reason.append("Money Flow In")
 
-            confidence += 3
-            signal.reason.append("Up Trend")
+        if coin.score.delta >= 70:
+            signal.reason.append("Aggressive Buyers")
 
-        if momentum >= 60:
+        if coin.score.cvd >= 70:
+            signal.reason.append("CVD Rising")
 
-            confidence += 3
-            signal.reason.append("Momentum")
+        if coin.score.whale >= 70:
+            signal.reason.append("Whale Buying")
 
-        if whale >= 60:
+        if coin.order_book_score.total >= 70:
+            signal.reason.append("Bid Wall Dominant")
 
-            confidence += 4
-            signal.reason.append("Whale Buy")
+        if coin.volume_spike.score >= 40:
+            signal.reason.append("Volume Spike")
 
-        if delta >= 60:
+        if coin.funding_rate.score >= 70:
 
-            confidence += 4
-            signal.reason.append("Positive Delta")
+            signal.reason.append(
+                "✓ Funding Healthy"
+            )
 
-        if cvd >= 60:
+        elif coin.funding_rate.score <= 30:
 
-            confidence += 4
-            signal.reason.append("Positive CVD")
+            signal.reason.append(
+                "⚠ Funding Risk"
+            )
 
-        if orderbook >= 60:
-
-            confidence += 4
-            signal.reason.append("Bid Pressure")
-
-        if breakout >= 70:
-
-            confidence += 6
-            signal.reason.append("Breakout")
-
-        # ==========================
-        # SELL CONFIRMATION
-        # ==========================
-
-        if trend <= 30:
-
-            confidence -= 3
-            signal.reason.append("Down Trend")
-
-        if whale <= 40:
-
-            confidence -= 4
-            signal.reason.append("Whale Sell")
-
-        if delta <= 40:
-
-            confidence -= 4
-            signal.reason.append("Negative Delta")
-
-        if cvd <= 40:
-
-            confidence -= 4
-            signal.reason.append("Negative CVD")
-
-        if orderbook <= 40:
-
-            confidence -= 4
-            signal.reason.append("Ask Pressure")
-
-        if breakout <= 30:
-
-            confidence -= 6
-            signal.reason.append("Near Support")
-
-        confidence = max(
-            0,
-            min(
-                confidence,
-                100,
-            ),
-        )
-
-        signal.confidence = round(
-            confidence,
-            2,
-        )
-
-        # ==========================================
-        # FINAL SIGNAL
-        # ==========================================
-
-        if confidence >= 90:
-
+        if score >= 85:
             signal.direction = "STRONG BUY"
-
-        elif confidence >= 80:
-
+        elif score >= 70:
             signal.direction = "BUY"
-
-        elif confidence >= 65:
-
+        elif score >= 60:
             signal.direction = "WATCH BUY"
-
-        elif confidence >= 45:
-
+        elif score >= 40:
             signal.direction = "NEUTRAL"
-
-        elif confidence >= 30:
-
+        elif score >= 30:
             signal.direction = "WATCH SELL"
-
-        elif confidence >= 15:
-
+        elif score >= 15:
             signal.direction = "SELL"
-
         else:
-
             signal.direction = "STRONG SELL"
 
+        # if mtf >= 80:
+
+        #     signal.reason.append(
+        #         "✓ Multi TF Bullish"
+        #     )
+
+
+        # elif mtf <= 20:
+
+        #     signal.reason.append(
+        #         "✓ Multi TF Bearish"
+        #     )
+
+        signal.confidence = score
         signal.updated = True
 
 

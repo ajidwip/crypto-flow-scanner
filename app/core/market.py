@@ -13,6 +13,11 @@ class Market:
 
         self.coins: dict[str, Coin] = {}
 
+        self.selected = "BTCUSDT"
+
+    def get_selected(self):
+
+        return self.get(self.selected)
 
     def add(
         self,

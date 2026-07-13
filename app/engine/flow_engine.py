@@ -66,15 +66,19 @@ class FlowEngine:
 
         whale = coin.score.whale
 
+        open_interest = coin.open_interest.score
+
+        funding = coin.funding_rate.score
+
         total = (
 
-            volume * 0.18 +
+            volume * 0.15 +
 
-            momentum * 0.18 +
+            momentum * 0.15 +
 
-            candle * 0.12 +
+            candle * 0.10 +
 
-            money_flow * 0.12 +
+            money_flow * 0.10 +
 
             trend * 0.10 +
 
@@ -82,7 +86,11 @@ class FlowEngine:
 
             delta * 0.10 +
 
-            cvd * 0.10
+            cvd * 0.10 +
+
+            open_interest * 0.08 +
+
+            funding * 0.07
 
         )
 

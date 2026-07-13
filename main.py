@@ -12,6 +12,8 @@ from app.services.trade_stream_service import trade_stream_service
 from app.services.system_monitor import system_monitor
 from app.services.orderbook_stream_service import orderbook_stream_service
 from app.services.open_interest_service import open_interest_service
+from app.core.market import market
+from app.services.funding_rate_service import funding_rate_service
 
 
 logging.basicConfig(
@@ -82,6 +84,28 @@ async def create_clients():
     return clients
 
 
+async def open_interest_loop():
+
+    while True:
+
+        coins = market.all()
+
+        for coin in coins[:50]:
+
+            await open_interest_service.update_coin(
+                coin
+            )
+
+            await asyncio.sleep(
+                0.05
+            )
+
+
+        await asyncio.sleep(
+            60
+        )
+
+
 async def main():
 
     logging.info("======================================")
@@ -133,8 +157,26 @@ async def main():
     tasks.append(
 
         asyncio.create_task(
+            open_interest_loop()
+        )
+
+    )
+
+    tasks.append(
+
+        asyncio.create_task(
 
             open_interest_service.start()
+
+        )
+
+    )
+
+    tasks.append(
+
+        asyncio.create_task(
+
+            funding_rate_service.start()
 
         )
 

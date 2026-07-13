@@ -3,38 +3,39 @@ from __future__ import annotations
 
 class TimeframeEngine:
 
+
     def calculate(
         self,
-        coin,
+        coin
     ):
 
-        score = coin.score
 
-        trend = score.trend
+        trend = coin.timeframe_trend
 
-        tf = coin.timeframe
 
-        tf.m5 = trend
+        score = (
 
-        tf.m15 = trend
+            trend.tf_5m.trend * 0.20
 
-        tf.h1 = trend
+            +
 
-        tf.h4 = trend
+            trend.tf_15m.trend * 0.30
 
-        tf.total = (
+            +
 
-            tf.m5 * 0.25 +
+            trend.tf_1h.trend * 0.30
 
-            tf.m15 * 0.25 +
+            +
 
-            tf.h1 * 0.25 +
-
-            tf.h4 * 0.25
+            trend.tf_4h.trend * 0.20
 
         )
 
-        tf.updated = True
+
+        trend.score = score
+
+        trend.updated = True
+
 
 
 timeframe_engine = TimeframeEngine()
