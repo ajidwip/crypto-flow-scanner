@@ -130,14 +130,14 @@ class TradeStreamService:
 
         coin.live_candle = None
 
-        logger.info(
+        # logger.info(
 
-            "%s Candle Closed %.2f",
+        #     "%s Candle Closed %.2f",
 
-            coin.symbol,
+        #     coin.symbol,
 
-            candle.close,
+        #     candle.close,
 
-        )
+        # )
 
 trade_stream_service = TradeStreamService()

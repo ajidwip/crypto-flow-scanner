@@ -17,9 +17,7 @@ class PaperPosition:
 
     stop: float = 0.0
 
-    tp1: float = 0.0
-
-    tp2: float = 0.0
+    take_profit: float = 0.0
 
     quantity: float = 0.0
 
@@ -31,15 +29,7 @@ class PaperPosition:
 
     pnl: float = 0.0
 
-    hit_tp1: bool = False
-
-    hit_tp2: bool = False
-
-    remaining_qty: float = 0.0
-
     realized_pnl: float = 0.0
-
-    moved_to_be: bool = False
 
     def open(self):
 

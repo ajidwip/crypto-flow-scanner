@@ -22,7 +22,7 @@ class OpenInterestService:
 
             try:
 
-                coins = priority_market.coins
+                coins = priority_market.symbols
 
                 # sementara ambil top 50 saja
                 # agar tidak kena rate limit Binance

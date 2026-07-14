@@ -10,9 +10,7 @@ class Entry:
 
     stop: float = 0.0
 
-    tp1: float = 0.0
-
-    tp2: float = 0.0
+    take_profit: float = 0.0
 
     rr: float = 0.0
 

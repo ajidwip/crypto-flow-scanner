@@ -20,8 +20,6 @@ class Position:
 
     loss_if_sl: float = 0.0
 
-    profit_tp1: float = 0.0
-
-    profit_tp2: float = 0.0
+    profit_tp: float = 0.0
 
     updated: bool = False

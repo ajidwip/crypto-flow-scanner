@@ -31,8 +31,6 @@ class PaperPositionMonitor:
 
                 position.status = "STOP"
 
-                position.remaining_qty = 0
-
                 position.close_price = low
 
                 position.close_time = current.close_time
@@ -41,15 +39,13 @@ class PaperPositionMonitor:
                     low
                     -
                     position.entry
-                ) * position.remaining_qty
+                ) * position.quantity
 
                 position.realized_pnl += loss
 
                 position.pnl = position.realized_pnl
 
                 portfolio.balance += loss
-
-                position.remaining_qty = 0
 
                 portfolio.loss += 1
 
@@ -66,71 +62,27 @@ class PaperPositionMonitor:
                 continue
 
             #
-            # TP1
+            # TP
             #
-
-            if (
-                not position.hit_tp1
-                and
-                high >= position.tp1
-            ):
-
-                position.hit_tp1 = True
-
-                close_qty = position.remaining_qty * 0.50
-
-                profit = (
-                    position.tp1
-                    -
-                    position.entry
-                ) * close_qty
-
-                portfolio.balance += profit
-
-                position.realized_pnl += profit
-
-                position.remaining_qty -= close_qty
-
-                #
-                # Break Even
-                #
-
-                position.stop = position.entry
-
-                position.moved_to_be = True
-
-                print()
-
-                print("[TP1]", position.symbol)
-
-                print("Profit :", round(profit,2))
-
-            #
-            # TP2
-            #
-            if high >= position.tp2:
+            if high >= position.take_profit:
 
                 position.status = "TP"
-
-                position.remaining_qty = 0
 
                 position.close_price = high
 
                 position.close_time = current.close_time
 
                 profit = (
-                    position.tp2
+                    position.take_profit
                     -
                     position.entry
-                ) * position.remaining_qty
+                ) * position.quantity
 
                 portfolio.balance += profit
 
                 position.realized_pnl += profit
 
                 position.pnl = position.realized_pnl
-
-                position.remaining_qty = 0
 
                 portfolio.win += 1
 

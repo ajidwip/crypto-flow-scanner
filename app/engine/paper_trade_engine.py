@@ -49,13 +49,9 @@ class PaperTradeEngine:
 
         position.stop = coin.entry.stop
 
-        position.tp1 = coin.entry.tp1
-
-        position.tp2 = coin.entry.tp2
+        position.take_profit = coin.entry.take_profit
 
         position.quantity = coin.position.position_size
-
-        position.remaining_qty = position.quantity
 
         position.open()
 

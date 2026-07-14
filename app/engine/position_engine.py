@@ -40,13 +40,8 @@ class PositionEngine:
 
         position.loss_if_sl = risk_amount
 
-        position.profit_tp1 = (
-            abs(entry.tp1 - entry.entry)
-            * qty
-        )
-
-        position.profit_tp2 = (
-            abs(entry.tp2 - entry.entry)
+        position.profit_tp = (
+            abs(entry.take_profit - entry.entry)
             * qty
         )
 

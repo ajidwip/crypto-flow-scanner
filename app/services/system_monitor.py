@@ -399,9 +399,7 @@ class SystemMonitor:
 
                         print("Stop   :", round(p.stop, 8))
 
-                        print("TP1    :", round(p.tp1, 8))
-
-                        print("TP2    :", round(p.tp2, 8))
+                        print("TP     :", round(p.take_profit, 8))
 
                         print("Qty    :", round(p.quantity, 2))
 
@@ -423,6 +421,10 @@ class SystemMonitor:
                         print(trade.symbol)
 
                         print("Result :", trade.status)
+
+                        print("Entry :", trade.entry)
+
+                        print("Stop :", trade.stop)
 
                         print("PnL    :", round(trade.pnl, 2))
 

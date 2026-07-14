@@ -35,24 +35,28 @@ class EntryEngine:
 
         resistance = max(highs)
 
-        risk = current.close - support
-
-        if risk <= 0:
-            return
-
-        reward = risk * 2
-
         entry = coin.entry
 
         entry.entry = current.close
 
         entry.stop = support
 
-        entry.tp1 = current.close + reward
+        risk = abs(
+            entry.entry
+            -
+            entry.stop
+        )
 
-        entry.tp2 = current.close + reward * 1.5
+        if risk <= 0:
+            return
 
-        entry.rr = reward / risk
+        entry.rr = 2.0
+
+        entry.take_profit = (
+            entry.entry
+            +
+            risk * entry.rr
+        )
 
         entry.updated = True
 

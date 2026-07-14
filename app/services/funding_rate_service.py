@@ -4,6 +4,7 @@ import asyncio
 import aiohttp
 
 from app.core.priority_market import priority_market
+from app.core.market import market
 
 
 class FundingRateService:
@@ -20,17 +21,18 @@ class FundingRateService:
 
             try:
 
-                coins = priority_market.coins
+                symbols = priority_market.symbols
 
-                for coin in coins:
+                for symbol in symbols:
 
-                    await self.update_coin(
-                        coin
-                    )
+                    coin = market.get(symbol)
 
-                    await asyncio.sleep(
-                        0.1
-                    )
+                    if coin is None:
+                        continue
+
+                    await self.update_coin(coin)
+
+                    await asyncio.sleep(0.1)
 
 
             except Exception as e:
