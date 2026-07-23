@@ -54,7 +54,7 @@ class SignalEngine:
 
         if score >= 85:
             signal.direction = "STRONG BUY"
-        elif score >= 70:
+        elif score >= 65:
             signal.direction = "BUY"
         elif score >= 60:
             signal.direction = "WATCH BUY"

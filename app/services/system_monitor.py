@@ -424,6 +424,8 @@ class SystemMonitor:
 
                         print("Entry :", trade.entry)
 
+                        print("TP :", trade.take_profit)
+
                         print("Stop :", trade.stop)
 
                         print("PnL    :", round(trade.pnl, 2))

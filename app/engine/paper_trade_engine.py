@@ -15,7 +15,7 @@ class PaperTradeEngine:
         signal = coin.signal
 
         if signal.direction not in (
-            "WATCH BUY",
+            # "WATCH BUY",
             "BUY",
             "STRONG BUY",
         ):
